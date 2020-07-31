@@ -1,10 +1,19 @@
-# Import os
+# Import os / sys
 import os
+import sys
+import json
 # Import Yeelight Python Lib
 from yeelight import Bulb
+from yeelight import discover_bulbs
 
+raw_bulbs = discover_bulbs()
+bulbs = []
+for bulb in raw_bulbs:
+    bulbs.append(Bulb(bulb['ip']))
 #  Create digital bulbs with their IP
 bulb = Bulb("192.168.15.3")
+
+# print(str(sys.argv[1]))   Get args from terminal for future feature to be implemented
 
 # Receives an input from the user and identifies the respective action to take
 while True:
@@ -15,7 +24,7 @@ while True:
     print("Type 3 and hit enter to change the brightness level")
     mode = input('Selected Action: ')
 
-    # For now it only turns on and off the bulb
+    # For now it only turns the bulb on and off and adjusts the brightness
     if mode == '0':
         exit()
     elif mode == '1':
