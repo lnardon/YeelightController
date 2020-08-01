@@ -22,12 +22,14 @@ for bulb in raw_bulbs:
 def on():
     for bulb in bulbs:
         bulb.turn_on()
+    return {}
 
 # Turns all the lights off
 @app.route('/off')
 def off():
     for bulb in bulbs:
         bulb.turn_off()
+        return {}
 
 # Sets the brightness of all the light based on the header property called brightness 
 @app.route('/brightness', methods=["POST"] )
@@ -35,6 +37,7 @@ def brightness():
     b = int(request.headers.get_all('brightness')[0])
     for bulb in bulbs:
         bulb.set_brightness(b)
+        return {}
 
 # Blinks all the light in a green color once 
 @app.route('/flow')
@@ -47,5 +50,6 @@ def flow():
     )
     for bulb in bulbs:
         bulb.start_flow(flow)
+    return {}
 
 app.run()
