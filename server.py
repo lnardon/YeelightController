@@ -13,7 +13,7 @@ raw_bulbs = discover_bulbs()
 bulbs = []
 for bulb in raw_bulbs:
     # Creates digital bulbs with their IP
-    bulbs.append(Bulb(bulb['ip']))
+    bulbs.append(Bulb(bulb['ip'], effect="smoooth", duration=1500))
 
 
 # API_ROUTES
@@ -29,9 +29,15 @@ def on():
 # Turns all the lights off
 @app.route('/off')
 def off():
-    bulbs[1].turn_off()
     for bulb in bulbs:
         bulb.turn_off()
+        return {}
+
+# Toggles all the lights
+@app.route('/toggle')
+def toggle():
+    for bulb in bulbs:
+        bulb.toggle()
         return {}
 
 # Sets the brightness of all the light based on the header property called brightness
