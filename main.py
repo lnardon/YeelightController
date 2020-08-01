@@ -1,17 +1,17 @@
 # Import os / sys
 import os
 import sys
-import json
-# Import Yeelight Python Lib
-from yeelight import Bulb
-from yeelight import discover_bulbs
 
+# Import Yeelight Python Lib
+from yeelight import *
+
+# Get's all the lights on the network
 raw_bulbs = discover_bulbs()
 bulbs = []
 for bulb in raw_bulbs:
+    # Creates digital bulbs with their IP
     bulbs.append(Bulb(bulb['ip']))
-#  Create digital bulbs with their IP
-bulb = Bulb("192.168.15.3")
+
 
 # print(str(sys.argv[1]))   Get args from terminal for future feature to be implemented
 
@@ -28,13 +28,16 @@ while True:
     if mode == '0':
         exit()
     elif mode == '1':
-        bulb.turn_on()
+        for bulb in bulbs:
+            bulb.turn_on()
     elif mode == '2':
-        bulb.turn_off()
+        for bulb in bulbs:
+            bulb.turn_off()
     elif mode == '3':
         print("Type the value of the desired brightness")
         brightness = input('Value Between 1 & 100: ')
-        bulb.set_brightness(int(brightness))
+        for bulb in bulbs:
+            bulb.set_brightness(brightness)
     else:
         print("Invalid Action")
     os.system('cls' if os.name == 'nt' else 'clear')
