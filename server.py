@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request
+from flask_cors import cross_origin
 from yeelight import *
 
 app = Flask(__name__)
@@ -18,6 +19,7 @@ for bulb in raw_bulbs:
 # API_ROUTES
 # LAN ONLY
 # Turns all the lights on
+@cross_origin()
 @app.route('/on')
 def on():
     for bulb in bulbs:
@@ -27,11 +29,13 @@ def on():
 # Turns all the lights off
 @app.route('/off')
 def off():
+    bulbs[1].turn_off()
     for bulb in bulbs:
         bulb.turn_off()
         return {}
 
-# Sets the brightness of all the light based on the header property called brightness 
+# Sets the brightness of all the light based on the header property called brightness
+@cross_origin() 
 @app.route('/brightness', methods=["POST"] )
 def brightness():
     b = int(request.headers.get_all('brightness')[0])
@@ -52,4 +56,4 @@ def flow():
         bulb.start_flow(flow)
     return {}
 
-app.run()
+app.run(host= '0.0.0.0')
