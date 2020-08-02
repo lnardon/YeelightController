@@ -77,10 +77,10 @@ def flow():
 @app.route('/single', methods=['POST'])
 @cross_origin()
 def toggleId():
-    b = request.headers.get_all('lampIp')[0]
+    b = str(request.headers.get('lampIp'))
     for bulb in bulbs:
-        if bulb._ip == b:
-            bulb.turn_on()
+        if str(bulb._ip) == b:
+            bulb.toggle()
     return {}
 
-app.run(host= '0.0.0.0')
+app.run(host= '0.0.0.0', port=4555)
