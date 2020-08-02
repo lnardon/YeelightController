@@ -1,5 +1,5 @@
 import os, json
-from flask import Flask, request
+from flask import Flask, request,  jsonify
 from flask_cors import cross_origin
 from yeelight import *
 
@@ -22,7 +22,9 @@ for bulb in raw_bulbs:
 @app.route('/bulbsList')
 @cross_origin()
 def bulbsList():
-  return str(raw_bulbs)
+    # response = flask.Response()
+    # response.headers["Access-Control-Allow-Origin"] = "*"
+  return jsonify({"body": raw_bulbs})
 
 # Turns all the lights on
 @app.route('/on')
@@ -69,6 +71,16 @@ def flow():
     )
     for bulb in bulbs:
         bulb.start_flow(flow)
+    return {}
+
+# Turns the specified bulb on/off based on the IP address
+@app.route('/single', methods=['POST'])
+@cross_origin()
+def toggleId():
+    b = request.headers.get_all('lampIp')[0]
+    for bulb in bulbs:
+        if bulb._ip == b:
+            bulb.turn_on()
     return {}
 
 app.run(host= '0.0.0.0')
