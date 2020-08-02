@@ -37,7 +37,7 @@ while True:
         print("Type the value of the desired brightness")
         brightness = input('Value Between 1 & 100: ')
         for bulb in bulbs:
-            bulb.set_brightness(brightness)
+            bulb.set_brightness(int(brightness))
     else:
         print("Invalid Action")
     os.system('cls' if os.name == 'nt' else 'clear')
